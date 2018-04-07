@@ -1,0 +1,9 @@
+{
+  "name": "amazing-photo-app",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "npm install --prefix pnf-server && npm install --prefix pnf-client",
+    "build": "npm run-script build --prefix pnf-client",
+    "start": "npm start --prefix pnf-server"
+  }
+}
