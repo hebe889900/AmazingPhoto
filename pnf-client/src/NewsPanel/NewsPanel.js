@@ -22,7 +22,7 @@ class NewsPanel extends React.Component {
 
   // Load news from backend, currently only 2 sample news
   loadMoreNews() {
-    let request = new Request('http://localhost:3000/news', {
+    let request = new Request('/news', {
       method: 'GET',
       cache: "no-cache" // make sure f5 is a real f5
     });
