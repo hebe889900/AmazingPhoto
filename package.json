@@ -4,6 +4,6 @@
   "scripts": {
     "postinstall": "npm install --prefix pnf-server && npm install --prefix pnf-client",
     "build": "npm run-script build --prefix pnf-client",
-    "start": "npm start --prefix pnf-server"
+    "start": "npm run-script build --prefix pnf-client & npm start --prefix pnf-server"
   }
 }
