@@ -5,15 +5,17 @@ import React, { Component } from 'react';
 import logo from './logo.png';
 import './app.css';
 
-import NewsPanel from '../NewsPanel/NewsPanel';
+import PhotoPanel from '../PhotoPanel/PhotoPanel';
+import AlbumButton from '../AlbumButton/AlbumButton';
 class App extends Component {
   render() {
     return (
       <div className="App">
         <img className='logo' src={logo} alt='logo' />
         <div className='container'>
-            // Todo : Newspanel
-            <NewsPanel />
+            // Todo : Photopanel
+            <AlbumButton />
+            <PhotoPanel />
         </div>
       </div>
     );

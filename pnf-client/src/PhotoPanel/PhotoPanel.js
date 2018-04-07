@@ -1,27 +1,27 @@
-import './NewsPanel.css';
+import './PhotoPanel.css';
 import React from 'react';
 import _ from 'lodash';
-import NewsCard from '../NewsCard/NewsCard';
+import PhotoCard from '../PhotoCard/PhotoCard';
 
-class NewsPanel extends React.Component {
+class PhotoPanel extends React.Component {
   constructor() {
     super();
     this.state = {
-      news: null
+      Photo: null
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentDidMount() {
   	console.log("component did mount")
-    this.loadMoreNews();
+    this.loadMorePhoto();
         // to retrieve from server only once every 1s
-    this.loadMoreNews = _.debounce(this.loadMoreNews, 1000);
+    this.loadMorePhoto = _.debounce(this.loadMorePhoto, 1000);
     window.addEventListener('scroll', this.handleScroll);
   }
 
-  // Load news from backend, currently only 2 sample news
-  loadMoreNews() {
+  // Load Photo from backend, currently only 2 sample Photo
+  loadMorePhoto() {
     let request = new Request('/news', {
       method: 'GET',
       cache: "no-cache" // make sure f5 is a real f5
@@ -30,11 +30,11 @@ class NewsPanel extends React.Component {
     // return a promise
     fetch(request)
       .then((res) =>  res.json()) // transfer to JSON
-      .then((loadedNews) => {
-        // the previous news is empty, then use 'loadedNews'
-        // or we need to add 'loadedNews' after previous news
+      .then((loadedPhoto) => {
+        // the previous Photo is empty, then use 'loadedPhoto'
+        // or we need to add 'loadedPhoto' after previous Photo
         this.setState({
-          news: this.state.news ? this.state.news.concat(loadedNews) : loadedNews
+          Photo: this.state.Photo ? this.state.Photo.concat(loadedPhoto) : loadedPhoto
         });
       });
   }
@@ -49,18 +49,18 @@ class NewsPanel extends React.Component {
     // window.innerHeight is the visual window height
     // window.innerHeight + scrollY  - the height of the whole page
     if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 50)) {
-      console.log('App.js : Loading more news...');
-      this.loadMoreNews();
+      console.log('App.js : Loading more Photo...');
+      this.loadMorePhoto();
     }
   }
 
 
-  // Iterate each news in state.news and create NewsCard for it
-  renderNews() {
-    const news_list = this.state.news.map(function(news) {
+  // Iterate each Photo in state.Photo and create PhotoCard for it
+  renderPhoto() {
+    const Photo_list = this.state.Photo.map(function(Photo) {
       return (
-        <a className="list-group-item" key={news.digest} href='#'>
-          <NewsCard news={news} />
+        <a className="list-group-item" key={Photo.digest} href='#'>
+          <PhotoCard Photo={Photo} />
         </a>
       );
     });
@@ -68,17 +68,17 @@ class NewsPanel extends React.Component {
     return (
       <div className="container-fluid">
         <a className="list-group-item" href='#'>
-          {news_list}
+          {Photo_list}
         </a>
       </div>
     )
   }
 
   render() {
-    console.log(this.state.news);
-    if (this.state.news) {
+    console.log(this.state.Photo);
+    if (this.state.Photo) {
       return (
-        <div> '{this.renderNews()}' </div>
+        <div> '{this.renderPhoto()}' </div>
       );
     }
     else {
@@ -89,4 +89,4 @@ class NewsPanel extends React.Component {
   }
 }
 
-export default NewsPanel;
+export default PhotoPanel;
