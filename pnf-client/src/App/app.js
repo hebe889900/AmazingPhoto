@@ -3,7 +3,7 @@ import 'materialize-css/dist/js/materialize.min.js';
 
 import React, { Component } from 'react';
 import logo from './logo.png';
-import './App.css';
+import './app.css';
 
 import NewsPanel from '../NewsPanel/NewsPanel';
 class App extends Component {
