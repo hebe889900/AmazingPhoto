@@ -1,6 +1,3 @@
-import 'materialize-css/dist/css/materialize.min.css';
-import 'materialize-css/dist/js/materialize.min.js';
-
 import React, { Component } from 'react';
 import './app.css';
 
@@ -11,7 +8,6 @@ class App extends Component {
     return (
       <div className="App">
         <div className='container'>
-            // Todo : Photopanel
             <AlbumButton />
             <PhotoPanel />
         </div>

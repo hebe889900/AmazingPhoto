@@ -9,10 +9,10 @@ class AlbumButton extends React.Component {
       <div className="AlbumButton-container">
         <div className='row'>      
           <div className='col s12 m6 l6'>
-            <a className="waves-effect waves-light btn">Sharks</a>
+            <button className="waves-effect waves-light btn">Sharks</button>
           </div>
           <div className='col s12 m6 l6'>
-            <a className="waves-effect waves-light btn">Cats</a>
+            <button className="waves-effect waves-light btn">Cats</button>
           </div>                    
         </div> {/* End of 'row'*/}
       </div> 
