@@ -9,7 +9,6 @@ class PhotoPanel extends React.Component {
     this.state = {
       Photo: null
     };
-    this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentDidMount() {
