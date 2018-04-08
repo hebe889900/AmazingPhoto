@@ -2,6 +2,13 @@ import './PhotoPanel.css';
 import React from 'react';
 import _ from 'lodash';
 import PhotoCard from '../PhotoCard/PhotoCard';
+import { createStore } from 'redux';
+import reducers from '../AlbumButton/Reducers';
+import { updateselected } from '../AlbumButton/actions'
+
+
+const store = createStore(reducers);
+
 
 class PhotoPanel extends React.Component {
   constructor() {
@@ -13,13 +20,17 @@ class PhotoPanel extends React.Component {
 
   componentDidMount() {
   	console.log("component did mount")
-    this.loadMorePhoto();
+    //const unsubscribe = store.subscribe(this.loadMorePhoto())
+    //unsubscribe();
+    this.loadMorePhoto()
+    console.log(this.loadMorePhoto)
         // to retrieve from server only once every 1s
     this.loadMorePhoto = _.debounce(this.loadMorePhoto, 1000);
   }
 
   // Load Photo from backend, currently only 2 sample Photo
   loadMorePhoto() {
+    console.log (store.getState());
     let request = new Request('/catslist', {
       method: 'GET',
       cache: "no-cache" // make sure f5 is a real f5
@@ -57,7 +68,7 @@ class PhotoPanel extends React.Component {
     console.log(this.state.Photo);
     if (this.state.Photo) {
       return (
-        <div> '{this.renderPhoto()}' </div>
+        <div> {this.renderPhoto()} </div>
       );
     }
     else {

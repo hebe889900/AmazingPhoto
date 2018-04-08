@@ -1,23 +1,62 @@
 import './AlbumButton.css';
+import Checkbox from './Checkbox';
 import React from 'react';
-import 'materialize-css/dist/css/materialize.min.css';
-import 'materialize-css/dist/js/materialize.min.js';
+import { createStore } from 'redux';
+import reducers from './Reducers';
+import { updateselected } from './actions'
+
+const store = createStore(reducers)
+const items = [
+    'Sharks',
+    'Cats'
+];
+const unsubscribe = store.subscribe(() =>
+  console.log(store.getState())
+)
 
 class AlbumButton extends React.Component {
+  componentWillMount = () => {
+    this.selectedCheckboxes = new Set();
+  }
+
+  toggleCheckbox = label => {
+    if (this.selectedCheckboxes.has(label)) {
+      this.selectedCheckboxes.delete(label);
+    } else {
+      this.selectedCheckboxes.add(label);
+    }
+    store.dispatch(updateselected(this.selectedCheckboxes))
+    console.log(store.getState());
+    for (const checkbox of this.selectedCheckboxes) {
+      console.log(checkbox, 'is selected.');
+    }    
+  }
+
+
+  createCheckbox = label => (
+    <Checkbox
+      label={label}
+      handleCheckboxChange={this.toggleCheckbox}
+      key={label}
+    />
+  )
+
+  createCheckboxes = () => (
+    items.map(this.createCheckbox)
+  )
 
   render() {
-    // Photo is in PhotoPanel so PhotoCard only need to show it
     return (
-      <div className="AlbumButton-container">
-        <div className='row'>      
-          <div className='col s12 m6 l6'>
-            <button className="waves-effect waves-light btn">Sharks</button>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12">
+            <form onSubmit={this.handleFormSubmit}>
+              {this.createCheckboxes()}
+            </form>
+
           </div>
-          <div className='col s12 m6 l6'>
-            <button className="waves-effect waves-light btn">Cats</button>
-          </div>                    
-        </div> {/* End of 'row'*/}
-      </div> 
+        </div>
+      </div>
     );
   }
 }
