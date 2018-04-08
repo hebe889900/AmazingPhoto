@@ -7,13 +7,13 @@ class AlbumButton extends React.Component {
     // Photo is in PhotoPanel so PhotoCard only need to show it
     return (
       <div className="AlbumButton-container">
-        <div className='row'>
-          <div className='col s4 fill'>
-            <Button>Sharks</Button>
+        <div className='row'>      
+          <div className='col s12 m6 l6'>
+            <a className="waves-effect waves-light btn">Sharks</a>
           </div>
-          <div className='col s4 fill'>
-            <Button>Cats</Button>
-          </div>          
+          <div className='col s12 m6 l6'>
+            <a className="waves-effect waves-light btn">Cats</a>
+          </div>                    
         </div> {/* End of 'row'*/}
       </div> 
     );

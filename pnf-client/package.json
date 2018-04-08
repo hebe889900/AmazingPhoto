@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aphrodite": "^0.5.0",
     "lodash": "^4.17.4",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "materialize-css": "^0.98.2",
+    "prop-types": "^15.6.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-scripts": "1.0.7"
+    "react-scripts": "1.0.7",
+    "react-swipeable": "^4.0.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
