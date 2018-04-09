@@ -4,7 +4,7 @@ import './app.css';
 import PhotoPanel from '../PhotoPanel/PhotoPanel';
 import AlbumButton from '../AlbumButton/AlbumButton';
 import { createStore } from 'redux';
-import reducer from '../AlbumButton/reducers';
+import reducer from '../AlbumButton/Reducers';
 
 let store = createStore(reducer);
 class App extends Component {
