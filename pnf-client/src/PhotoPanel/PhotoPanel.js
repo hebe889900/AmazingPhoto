@@ -4,33 +4,36 @@ import _ from 'lodash';
 import PhotoCard from '../PhotoCard/PhotoCard';
 import { createStore } from 'redux';
 import reducers from '../AlbumButton/Reducers';
+import AlbumButton from '../AlbumButton/AlbumButton';
 import { updateselected } from '../AlbumButton/actions'
 
 
-const store = createStore(reducers);
-
-
 class PhotoPanel extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      Photo: null
+      Photo: null,
+      Photolist: props.store.getState()
     };
+    this.loadMorePhoto = this.loadMorePhoto.bind(this);
   }
 
   componentDidMount() {
-  	console.log("component did mount")
-    //const unsubscribe = store.subscribe(this.loadMorePhoto())
-    //unsubscribe();
-    this.loadMorePhoto()
-    console.log(this.loadMorePhoto)
+  	    console.log("component did mount")
         // to retrieve from server only once every 1s
-    this.loadMorePhoto = _.debounce(this.loadMorePhoto, 1000);
+        console.log(this.props)
+        this.props.store.subscribe(this.loadMorePhoto);
+        this.loadMorePhoto();
   }
 
   // Load Photo from backend, currently only 2 sample Photo
   loadMorePhoto() {
-    console.log (store.getState());
+    console.log (this.props.store.getState());
+    this.setState({
+      Photolist: this.props.store.getState()
+    });    
+    let requestArray = [];
+    // return a promise
     let request = new Request('/catslist', {
       method: 'GET',
       cache: "no-cache" // make sure f5 is a real f5
@@ -46,7 +49,59 @@ class PhotoPanel extends React.Component {
         this.setState({
           Photo: this.state.Photo ? this.state.Photo.concat(loadedPhoto) : loadedPhoto
         });
-      });
+      });    
+
+    if (this.props.store.getState()) {
+      if (this.props.store.getState().has("Cats")) {
+          let catsRequest = new Request('/catslist', {
+            method: 'GET',
+            cache: "no-cache" // make sure f5 is a real f5
+          });    
+
+         let catFetch = fetch(catsRequest)
+          .then((res) =>  res.json()) // transfer to JSON
+          .then((loadedPhoto) => {
+            // the previous Photo is empty, then use 'loadedPhoto'
+            // or we need to add 'loadedPhoto' after previous Photo
+            console.log(loadedPhoto)
+            return loadedPhoto;
+          });     
+          requestArray.push(catFetch);
+      }
+
+
+      //Fetch sharklist
+      if (this.props.store.getState.has("Sharks")) {
+          let sharksRequest = new Request('/sharkslist', {
+            method: 'GET',
+            cache: "no-cache" // make sure f5 is a real f5
+          });         
+         let sharkFetch = fetch(sharksRequest)
+          .then((res) =>  res.json()) // transfer to JSON
+          .then((loadedPhoto) => {
+            // the previous Photo is empty, then use 'loadedPhoto'
+            // or we need to add 'loadedPhoto' after previous Photo
+            console.log(loadedPhoto)
+            return loadedPhoto;
+          });  
+          requestArray.push(sharkFetch);
+      }
+
+      Promise.all(requestArray).then(function(values){
+        if(values[0]) {
+          this.setState({
+              Photo: this.state.Photo ? this.state.Photo.concat(values[0]) : values[0]
+          });        
+        }
+        if(values[1]) {
+           this.setState({
+              Photo: this.state.Photo ? this.state.Photo.concat(values[1]) : values[1]
+          });       
+        }
+      });        
+    }
+  
+
   }
 
 
