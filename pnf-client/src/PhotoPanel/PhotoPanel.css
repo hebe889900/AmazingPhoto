@@ -168,12 +168,16 @@
       padding: 0 15px; } }
 
 .image-gallery-left-nav {
-  left: 0; }
+  left: 0; 
+  position: absolute;
+  top: 2.5em;}
   .image-gallery-left-nav::before {
     content: ""; }
 
 .image-gallery-right-nav {
-  right: 0; }
+  right: 0; 
+  position: absolute;
+  top: 2.5em;}
   .image-gallery-right-nav::before {
     content: ""; }
 
@@ -327,4 +331,4 @@
       font-size: .8em;
       padding: 5px 10px; } }
 
-      
+
