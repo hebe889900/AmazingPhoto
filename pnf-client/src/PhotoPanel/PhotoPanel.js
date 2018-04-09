@@ -90,18 +90,22 @@ class PhotoPanel extends React.Component {
 
       if(requestArray.length > 0) {
          Promise.all(requestArray).then(function(values){
-          console.log(values)
+          console.log(thisComponent.state.Photo)
+          thisComponent.setState({
+                Photo: null
+          });  
           if(values[0]) {
             thisComponent.setState({
                 Photo: thisComponent.state.Photo ? thisComponent.state.Photo.concat(values[0]) : values[0]
             });        
           }
+          console.log(thisComponent.state.Photo)
           if(values[1]) {
              thisComponent.setState({
                 Photo: thisComponent.state.Photo ? thisComponent.state.Photo.concat(values[1]) : values[1]
             });       
           }
-
+          console.log(thisComponent.state.Photo)
           if(values[0] && values[1]) {
             thisComponent.setState({
                 Photo: shuffle(thisComponent.state.Photo)
@@ -110,7 +114,7 @@ class PhotoPanel extends React.Component {
         });         
       }
       else {
-        this.setState({
+        thisComponent.setState({
            Photo: null
         })
       }
