@@ -4,6 +4,8 @@ import React from 'react';
 import { createStore } from 'redux';
 import reducers from './Reducers';
 import { updateselected } from './Actions'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
 
 const store = createStore(reducers)
 const items = [
@@ -34,7 +36,7 @@ class AlbumButton extends React.Component {
     } else {
       this.selectedCheckboxes.add(label);
     }
-    console.log(this.props);
+    console.log(this.selectedCheckboxes);
     this.props.action(this.selectedCheckboxes);
     store.dispatch(updateselected(this.selectedCheckboxes))
     console.log(store.getState());
@@ -60,12 +62,9 @@ class AlbumButton extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm-12">
-            <form onSubmit={this.handleFormSubmit}>
+            <form>
               {this.createCheckboxes()}
             </form>
-
-          </div>
         </div>
       </div>
     );

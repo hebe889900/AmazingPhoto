@@ -13,7 +13,7 @@ class PhotoPanel extends React.Component {
     super(props);
     this.state = {
       Photo: null,
-      Photolist: props.store.getState()
+      Photolist: new Set()
     };
     this.loadMorePhoto = this.loadMorePhoto.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
@@ -29,10 +29,17 @@ class PhotoPanel extends React.Component {
   }
 
   onUpdate = (val) => {
+    console.log(val)
     this.setState({
       Photolist: val
     })
-    this.loadMorePhoto();
+
+    this.setState({Photolist: val}, function () {
+        console.log(this.state.value);
+        this.loadMorePhoto();
+    });
+    console.log(this.state)
+    
   };
 
 
@@ -94,6 +101,12 @@ class PhotoPanel extends React.Component {
                 Photo: thisComponent.state.Photo ? thisComponent.state.Photo.concat(values[1]) : values[1]
             });       
           }
+
+          if(values[0] && values[1]) {
+            thisComponent.setState({
+                Photo: shuffle(thisComponent.state.Photo)
+            });
+          }
         });         
       }
       else {
@@ -134,10 +147,30 @@ class PhotoPanel extends React.Component {
     }
     else {
       return (
-        <div><AlbumButton action={this.onUpdate} /><div> No Photo</div> </div>
+        <div><AlbumButton action={this.onUpdate} /><div>Please select an album...</div> </div>
       );
     }
   }
+}
+
+
+let shuffle = function (array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 export default PhotoPanel;
