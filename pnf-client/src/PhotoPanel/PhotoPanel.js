@@ -16,6 +16,8 @@ class PhotoPanel extends React.Component {
       Photolist: props.store.getState()
     };
     this.loadMorePhoto = this.loadMorePhoto.bind(this);
+    this.onUpdate = this.onUpdate.bind(this);
+    console.log(props)
   }
 
   componentDidMount() {
@@ -26,33 +28,23 @@ class PhotoPanel extends React.Component {
         this.loadMorePhoto();
   }
 
+  onUpdate = (val) => {
+    this.setState({
+      Photolist: val
+    })
+    this.loadMorePhoto();
+  };
+
+
   // Load Photo from backend, currently only 2 sample Photo
   loadMorePhoto() {
-    console.log (this.props.store.getState());
-    this.setState({
-      Photolist: this.props.store.getState()
-    });    
+    console.log (this.state.Photolist);
+    console.log (this.state);
     let requestArray = [];
     // return a promise
-    let request = new Request('/catslist', {
-      method: 'GET',
-      cache: "no-cache" // make sure f5 is a real f5
-    });
 
-    // return a promise
-    fetch(request)
-      .then((res) =>  res.json()) // transfer to JSON
-      .then((loadedPhoto) => {
-        // the previous Photo is empty, then use 'loadedPhoto'
-        // or we need to add 'loadedPhoto' after previous Photo
-        console.log(loadedPhoto)
-        this.setState({
-          Photo: this.state.Photo ? this.state.Photo.concat(loadedPhoto) : loadedPhoto
-        });
-      });    
-
-    if (this.props.store.getState()) {
-      if (this.props.store.getState().has("Cats")) {
+    if (this.state.Photolist) {
+      if (this.state.Photolist.has("Cats")) {
           let catsRequest = new Request('/catslist', {
             method: 'GET',
             cache: "no-cache" // make sure f5 is a real f5
@@ -71,7 +63,7 @@ class PhotoPanel extends React.Component {
 
 
       //Fetch sharklist
-      if (this.props.store.getState.has("Sharks")) {
+      if (this.state.Photolist.has("Sharks")) {
           let sharksRequest = new Request('/sharkslist', {
             method: 'GET',
             cache: "no-cache" // make sure f5 is a real f5
@@ -87,18 +79,29 @@ class PhotoPanel extends React.Component {
           requestArray.push(sharkFetch);
       }
 
-      Promise.all(requestArray).then(function(values){
-        if(values[0]) {
-          this.setState({
-              Photo: this.state.Photo ? this.state.Photo.concat(values[0]) : values[0]
-          });        
-        }
-        if(values[1]) {
-           this.setState({
-              Photo: this.state.Photo ? this.state.Photo.concat(values[1]) : values[1]
-          });       
-        }
-      });        
+      const thisComponent = this;
+
+      if(requestArray.length > 0) {
+         Promise.all(requestArray).then(function(values){
+          console.log(values)
+          if(values[0]) {
+            thisComponent.setState({
+                Photo: thisComponent.state.Photo ? thisComponent.state.Photo.concat(values[0]) : values[0]
+            });        
+          }
+          if(values[1]) {
+             thisComponent.setState({
+                Photo: thisComponent.state.Photo ? thisComponent.state.Photo.concat(values[1]) : values[1]
+            });       
+          }
+        });         
+      }
+      else {
+        this.setState({
+           Photo: null
+        })
+      }
+      
     }
   
 
@@ -122,13 +125,16 @@ class PhotoPanel extends React.Component {
   render() {
     console.log(this.state.Photo);
     if (this.state.Photo) {
-      return (
-        <div> {this.renderPhoto()} </div>
+      return (     
+        <div> 
+          <AlbumButton action={this.onUpdate} />
+          <div>{this.renderPhoto()} </div>
+        </div>
       );
     }
     else {
       return (
-        <div> Loading... </div>
+        <div><AlbumButton action={this.onUpdate} /><div> No Photo</div> </div>
       );
     }
   }

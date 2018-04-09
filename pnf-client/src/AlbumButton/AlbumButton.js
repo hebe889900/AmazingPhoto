@@ -15,6 +15,15 @@ const unsubscribe = store.subscribe(() =>
 )
 
 class AlbumButton extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+    this.state = {
+      Photolist: ""
+    }
+  }
+
+
   componentWillMount = () => {
     this.selectedCheckboxes = new Set();
   }
@@ -25,6 +34,8 @@ class AlbumButton extends React.Component {
     } else {
       this.selectedCheckboxes.add(label);
     }
+    console.log(this.props);
+    this.props.action(this.selectedCheckboxes);
     store.dispatch(updateselected(this.selectedCheckboxes))
     console.log(store.getState());
     for (const checkbox of this.selectedCheckboxes) {

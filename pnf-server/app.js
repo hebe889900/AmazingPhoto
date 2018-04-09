@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 
 var index = require('./routes/index');
-var news = require('./routes/news');
 var sharkslist = require('./routes/sharkslist');
 var catslist = require('./routes/catslist');
 
@@ -15,9 +14,8 @@ app.set('view engine', 'jade');
 app.use('/static', express.static(path.join(__dirname, '../pnf-client/build/static/')));
 
 app.use('/', index);
-app.use('/news', news);
 app.use('/catslist', catslist);
-app.use('sharkslist', sharkslist);
+app.use('/sharkslist', sharkslist);
 
 
 // TODO: remove this after development is done.

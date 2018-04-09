@@ -12,7 +12,6 @@ class App extends Component {
     return (
       <div className="App">
         <div className='container'>
-            <AlbumButton />
             <PhotoPanel store={store}/>
         </div>
       </div>
