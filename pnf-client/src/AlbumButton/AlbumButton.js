@@ -3,7 +3,7 @@ import Checkbox from './Checkbox';
 import React from 'react';
 import { createStore } from 'redux';
 import reducers from './Reducers';
-import { updateselected } from './actions'
+import { updateselected } from './Actions'
 
 const store = createStore(reducers)
 const items = [

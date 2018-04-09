@@ -5,7 +5,7 @@ import PhotoCard from '../PhotoCard/PhotoCard';
 import { createStore } from 'redux';
 import reducers from '../AlbumButton/Reducers';
 import AlbumButton from '../AlbumButton/AlbumButton';
-import { updateselected } from '../AlbumButton/actions'
+import { updateselected } from '../AlbumButton/Actions'
 
 
 class PhotoPanel extends React.Component {

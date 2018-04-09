@@ -1,4 +1,4 @@
-import { selectedCheckbox } from './actions'
+import { selectedCheckbox } from './Actions'
 
 function reducers(state = [], action) {
 	  return action.selectedCheckbox
